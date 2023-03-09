@@ -22,7 +22,7 @@ class Tree {
 // repeat all steps, or stop when step 1 is true
 
 function buildTree(array) {
-	const tree = new Set(array.sort());
+	const tree = [...new Set(array.sort())];
 
 	if (0 > tree.length - 1) return null;
 	console.log(tree);
@@ -35,5 +35,5 @@ function buildTree(array) {
 	return root;
 }
 
-let jim = new Tree([1, 2, 3, 4]);
+let jim = new Tree([2, 3, 1, 6, 4, 5, 7]);
 console.log(jim);
