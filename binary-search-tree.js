@@ -28,12 +28,21 @@ function buildTree(array) {
 
 	const mid = Math.floor((tree.length - 1) / 2);
 	const root = new Node(tree[mid]);
-
-	root.left = buildTree(tree.slice(0, mid)); // -1
+	root.left = buildTree(tree.slice(0, mid));
 	root.right = buildTree(tree.slice(mid + 1, tree.length));
 
 	return root;
 }
 
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+	if (node.right !== null) {
+		prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+	}
+	console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+	if (node.left !== null) {
+		prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+	}
+};
+
 let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7]);
-console.dir(binaryTree, { depth: null });
+prettyPrint(binaryTree.root);
