@@ -12,7 +12,7 @@ class Tree {
 	}
 }
 
-// Step 1: If left and right node are null (leaf nodes) / start > end, return null
+// Step 1: start > end, return null
 
 // Step 2: otherwise, get mid
 // Step 3: create a new Node with array[mid] to get root of the subarray
@@ -25,15 +25,15 @@ function buildTree(array) {
 	const tree = [...new Set(array.sort())];
 
 	if (0 > tree.length - 1) return null;
-	console.log(tree);
-	const mid = Math.floor(1 + (tree.length - 1) / 2);
+
+	const mid = Math.floor((tree.length - 1) / 2);
 	const root = new Node(tree[mid]);
 
-	root.left = buildTree(tree.slice(0, mid));
-	root.right = buildTree(tree.slice(mid, tree.length));
+	root.left = buildTree(tree.slice(0, mid)); // -1
+	root.right = buildTree(tree.slice(mid + 1, tree.length));
 
 	return root;
 }
 
-let jim = new Tree([2, 3, 1, 6, 4, 5, 7]);
-console.log(jim);
+let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7]);
+console.dir(binaryTree, { depth: null });
