@@ -26,17 +26,25 @@ class Tree {
 
 	insert(value) {
 		// create temp = this.root
-		// while temp != null, run loop
-		// if value > temp, temp = temp.right
-		// else temp = temp.left
+		// while temp left/right != null, run loop
+		// if value > temp.value and temp.right != null, temp = temp.right, continue
+		// else if value < temp.value and temp.left != null, temp = temp.left, continue
+		// otherwise if both conditions are false, break out of the loop
 
-		// once loop is finished, create a new Node with value
+		// once loop is complete, create a new Node with value
 		let temp = this.root;
 
-		while (temp.left != null && temp.right != null) {
-			temp = value > temp.value ? temp.right : temp.left;
+		while (temp.left != null || temp.right != null) {
+			if (value > temp.value && temp.right != null) {
+				temp = temp.right;
+				continue;
+			} else if (value < temp.value && temp.left != null) {
+				temp = temp.left;
+				continue;
+			}
+			break;
 		}
-
+		console.log(temp);
 		temp[value > temp.value ? "right" : "left"] = new Node(value);
 	}
 
@@ -59,9 +67,11 @@ class Tree {
 	}
 }
 
-let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7]);
-binaryTree.insert(92);
-binaryTree.insert(45);
+let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+binaryTree.insert(20);
+binaryTree.insert(25);
 
-console.dir(binaryTree.root, { depth: null });
+binaryTree.insert(15);
+binaryTree.insert(-5);
+
 binaryTree.prettyPrint(binaryTree.root);
