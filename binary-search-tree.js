@@ -12,7 +12,7 @@ class Tree {
 	}
 
 	buildTree(array) {
-		const tree = [...new Set(array.sort())];
+		const tree = [...new Set(array.sort((a, b) => a - b))];
 
 		if (0 > tree.length - 1) return null;
 
@@ -22,6 +22,22 @@ class Tree {
 		root.right = this.buildTree(tree.slice(mid + 1, tree.length));
 
 		return root;
+	}
+
+	insert(value) {
+		// create temp = this.root
+		// while temp != null, run loop
+		// if value > temp, temp = temp.right
+		// else temp = temp.left
+
+		// once loop is finished, create a new Node with value
+		let temp = this.root;
+
+		while (temp.left != null && temp.right != null) {
+			temp = value > temp.value ? temp.right : temp.left;
+		}
+
+		temp[value > temp.value ? "right" : "left"] = new Node(value);
 	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
@@ -44,4 +60,8 @@ class Tree {
 }
 
 let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7]);
+binaryTree.insert(92);
+binaryTree.insert(45);
+
+console.dir(binaryTree.root, { depth: null });
 binaryTree.prettyPrint(binaryTree.root);
