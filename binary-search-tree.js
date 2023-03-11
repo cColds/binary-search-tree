@@ -35,58 +35,44 @@ class Tree {
 		} else if (value > root.value) {
 			root.right = this.insert(value, root.right);
 		}
+
 		return root;
 	}
 
-	delete(value) {
-		// STEP 1: if current.left == null && current.right == null
-		// set previous pointer of current to null
+	delete(value, root = this.root) {
+		// Base case
 
-		// ONE CHILD NODE
-		// STEP 2: else if current.left == null && current.right != null || current.left != null && current.right == null
-		// copy current[left / right] in a  variable
-		// set previous pointer of current node to the copied node
+		if (root == null) {
+			return root;
+		}
 
-		// TWO CHILD NODES
-		// STEP 3: else if current.left != null && current.right != null
-		// current.value is the one to delete and it has two children
-		// create root = current
-		// set current to current.right
-		// loop until current.left is null
-		// previous = current
-		// if current.left != null
-		// current = current.left
-		// root.right.right =
-		// maybe recursion
-		let previous = null;
-		let current = this.root;
-		while (current.value !== value) {
-			if (current.value < value && current.right != null) {
-				previous = current;
-				current = current.right;
-				continue;
-			} else if (current.value > value && current.left != null) {
-				previous = current;
-				current = current.left;
-				continue;
+		// Traverse tree
+
+		if (value < root.value) {
+			root.left = this.delete(value, root.left);
+		} else if (value > root.value) {
+			root.right = this.delete(value, root.right);
+		} else {
+			// Delete node
+
+			// 0 / 1 child(ren) node(s)
+			if (root.left == null) return root.right;
+			if (root.right == null) return root.left;
+
+			// if both condition fail, node must have two children
+			// create pointer = root.right
+			let pointer = root.right;
+			while (pointer.left != null) {
+				pointer = pointer.left;
 			}
 
-			break;
+			console.log(pointer, root);
+			let preserveNodes = root.left;
+			root = pointer;
+			root.left = preserveNodes;
 		}
 
-		if (current.left == null && current.right == null) {
-			previous[value > previous.value ? "right" : "left"] = null;
-		} else if (
-			(current.left == null && current.right != null) ||
-			(current.left != null && current.right == null)
-		) {
-			const copyCurrentChildNode =
-				current[current.left != null ? "left" : "right"];
-
-			previous[
-				previous.right.value === current.value ? "right" : "left"
-			] = copyCurrentChildNode;
-		}
+		return root;
 	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
@@ -109,6 +95,8 @@ class Tree {
 }
 
 let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-binaryTree.insert(15);
-binaryTree.insert(20);
+binaryTree.delete(9);
+binaryTree.delete(10);
+binaryTree.delete(11);
+
 binaryTree.prettyPrint(binaryTree.root);
