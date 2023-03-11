@@ -60,23 +60,32 @@ class Tree {
 			if (root.right == null) return root.left;
 
 			// if both condition fail, node must have two children
-			// create pointer = root.right
+
 			let pointer = root.right;
 			while (pointer.left != null) {
 				pointer = pointer.left;
 			}
-
-			console.log(pointer, root);
-			let preserveNodes = root.left;
-			root = pointer;
-			root.left = preserveNodes;
+			console.log(pointer);
+			let preserveNode = root.left;
+			root = pointer; // Get next node just bigger than the root
+			root.left = preserveNode; // Keep rest of nodes
 		}
 
 		return root;
 	}
 
+	find(value, root = this.root) {
+		if (root == null) return null;
+
+		if (value < root.value) {
+			return this.find(value, root.left);
+		} else if (value > root.value) return this.find(value, root.right);
+
+		return root;
+	}
+
 	prettyPrint(node, prefix = "", isLeft = true) {
-		if (node.right !== null) {
+		if (node.right != null) {
 			this.prettyPrint(
 				node.right,
 				`${prefix}${isLeft ? "│   " : "    "}`,
@@ -84,7 +93,7 @@ class Tree {
 			);
 		}
 		console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
-		if (node.left !== null) {
+		if (node.left != null) {
 			this.prettyPrint(
 				node.left,
 				`${prefix}${isLeft ? "    " : "│   "}`,
@@ -95,8 +104,5 @@ class Tree {
 }
 
 let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-binaryTree.delete(9);
-binaryTree.delete(10);
-binaryTree.delete(11);
 
 binaryTree.prettyPrint(binaryTree.root);
