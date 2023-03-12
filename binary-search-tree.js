@@ -65,7 +65,7 @@ class Tree {
 			while (pointer.left != null) {
 				pointer = pointer.left;
 			}
-			console.log(pointer);
+
 			let preserveNode = root.left;
 			root = pointer; // Get next node just bigger than the root
 			root.left = preserveNode; // Keep rest of nodes
@@ -82,6 +82,26 @@ class Tree {
 		} else if (value > root.value) return this.find(value, root.right);
 
 		return root;
+	}
+
+	#levelOrder(callback, root = this.root, queue = []) {
+		if (root == null) return;
+		queue.push(root);
+		let nodeTraverseOrder = [];
+		while (queue.length) {
+			const current = queue[0];
+			if (current.left != null) queue.push(current.left);
+			if (current.right != null) queue.push(current.right);
+			nodeTraverseOrder.push(queue.shift());
+		}
+
+		return typeof callback !== "function"
+			? nodeTraverseOrder
+			: callback(nodeTraverseOrder);
+	}
+
+	levelOrder(callback) {
+		return this.#levelOrder(callback);
 	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
@@ -103,6 +123,8 @@ class Tree {
 	}
 }
 
-let binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+console.log(binaryTree.levelOrder());
+console.log(binaryTree.levelOrder((nodes) => nodes.map((node) => node.value)));
 
 binaryTree.prettyPrint(binaryTree.root);
