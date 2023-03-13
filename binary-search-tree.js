@@ -86,8 +86,8 @@ class Tree {
 
 	#levelOrder(callback, root = this.root, queue = []) {
 		if (root == null) return;
-		queue.push(root.value);
-		let nodeTraverseOrder = [];
+		queue.push(root);
+		const nodeTraverseOrder = [];
 		while (queue.length) {
 			const current = queue[0];
 			if (current.left != null) queue.push(current.left);
@@ -95,9 +95,13 @@ class Tree {
 			nodeTraverseOrder.push(queue.shift());
 		}
 
+		const nodeTraverOrderValues = nodeTraverseOrder.map(
+			(node) => node.value
+		);
+
 		return typeof callback !== "function"
-			? nodeTraverseOrder
-			: callback(nodeTraverseOrder);
+			? nodeTraverOrderValues
+			: callback(nodeTraverOrderValues);
 	}
 
 	levelOrder(callback) {
@@ -195,9 +199,7 @@ class Tree {
 	rebalance() {
 		// Traverse tree and add each value to an array
 		// call buildTree with the array as the argument
-		const array = this.levelOrder((nodes) =>
-			nodes.map((node) => node.value)
-		);
+		const array = this.levelOrder(); // will be sorted when buildTree is called
 
 		this.root = this.buildTree(array);
 	}
