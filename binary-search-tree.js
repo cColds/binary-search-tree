@@ -182,6 +182,17 @@ class Tree {
 		return depth;
 	}
 
+	isBalanced(root = this.root) {
+		if (root == null) {
+			return;
+		}
+
+		const leftHeight = this.height(root.left);
+		const rightHeight = this.height(root.right);
+
+		return Math.abs(rightHeight - leftHeight) > 1 ? false : true;
+	}
+
 	prettyPrint(node, prefix = "", isLeft = true) {
 		if (node == null) return null;
 
@@ -205,8 +216,5 @@ class Tree {
 
 const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
-console.log(binaryTree.postorder());
-console.log(binaryTree.preorder((nodes) => nodes.map((node) => node ** 2)));
-console.log(binaryTree.depth(binaryTree.root.right.right.right));
-
+console.log(binaryTree.isBalanced());
 binaryTree.prettyPrint(binaryTree.root);
