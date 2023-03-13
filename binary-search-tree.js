@@ -189,8 +189,17 @@ class Tree {
 
 		const leftHeight = this.height(root.left);
 		const rightHeight = this.height(root.right);
-
 		return Math.abs(rightHeight - leftHeight) > 1 ? false : true;
+	}
+
+	rebalance() {
+		// Traverse tree and add each value to an array
+		// call buildTree with the array as the argument
+		const array = this.levelOrder((nodes) =>
+			nodes.map((node) => node.value)
+		);
+
+		this.root = this.buildTree(array);
 	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
@@ -216,5 +225,4 @@ class Tree {
 
 const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
-console.log(binaryTree.isBalanced());
 binaryTree.prettyPrint(binaryTree.root);
