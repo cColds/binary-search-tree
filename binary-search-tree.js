@@ -113,14 +113,6 @@ class Tree {
 		return root;
 	}
 
-	preorder(callback) {
-		const nodeTraverseOrder = [];
-		this.#preorder(nodeTraverseOrder);
-		return typeof callback !== "function"
-			? nodeTraverseOrder
-			: callback(nodeTraverseOrder);
-	}
-
 	#inorder(nodeTraverseOrder, root = this.root) {
 		if (root == null) return null;
 
@@ -129,14 +121,6 @@ class Tree {
 		this.#inorder(nodeTraverseOrder, root.right);
 
 		return root;
-	}
-
-	inorder(callback) {
-		const nodeTraverseOrder = [];
-		this.#inorder(nodeTraverseOrder);
-		return typeof callback !== "function"
-			? nodeTraverseOrder
-			: callback(nodeTraverseOrder);
 	}
 
 	#postorder(nodeTraverseOrder, root = this.root) {
@@ -149,9 +133,25 @@ class Tree {
 		return root;
 	}
 
+	preorder(callback) {
+		return this.#runTraversal("preorder", callback);
+	}
+
+	inorder(callback) {
+		return this.#runTraversal("inorder", callback);
+	}
+
 	postorder(callback) {
+		return this.#runTraversal("postorder", callback);
+	}
+
+	#runTraversal(order, callback) {
 		const nodeTraverseOrder = [];
-		this.#postorder(nodeTraverseOrder);
+
+		if (order === "preorder") this.#preorder(nodeTraverseOrder);
+		else if (order === "inorder") this.#inorder(nodeTraverseOrder);
+		else this.#postorder(nodeTraverseOrder);
+
 		return typeof callback !== "function"
 			? nodeTraverseOrder
 			: callback(nodeTraverseOrder);
@@ -181,6 +181,6 @@ class Tree {
 const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
 console.log(binaryTree.postorder());
-console.log(binaryTree.postorder((nodes) => nodes.map((node) => node ** 2)));
+console.log(binaryTree.preorder((nodes) => nodes.map((node) => node ** 2)));
 
 binaryTree.prettyPrint(binaryTree.root);
