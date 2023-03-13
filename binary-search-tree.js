@@ -201,6 +201,12 @@ class Tree {
 
 		this.root = this.buildTree(array);
 	}
+	getRandomNumArray() {
+		const randomLength = Math.floor(Math.random() * 15);
+		return [...Array(randomLength)].map(() =>
+			Math.floor(Math.random() * 20)
+		);
+	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
 		if (node == null) return null;
@@ -224,5 +230,5 @@ class Tree {
 }
 
 const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
-
+console.log(binaryTree.getRandomNumArray());
 binaryTree.prettyPrint(binaryTree.root);
