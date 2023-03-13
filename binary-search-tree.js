@@ -236,5 +236,16 @@ console.log("Level order", binaryTree.levelOrder());
 console.log("Pre order", binaryTree.preorder());
 console.log("In order", binaryTree.inorder());
 console.log("Post order", binaryTree.postorder());
+binaryTree.insert(100);
+binaryTree.insert(150);
+binaryTree.insert(200);
+console.log(binaryTree.isBalanced());
+binaryTree.prettyPrint(binaryTree.root);
 
+binaryTree.rebalance();
+console.log(binaryTree.isBalanced());
+console.log("Level order", binaryTree.levelOrder());
+console.log("Pre order", binaryTree.preorder());
+console.log("In order", binaryTree.inorder());
+console.log("Post order", binaryTree.postorder());
 binaryTree.prettyPrint(binaryTree.root);
