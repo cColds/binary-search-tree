@@ -86,7 +86,7 @@ class Tree {
 
 	#levelOrder(callback, root = this.root, queue = []) {
 		if (root == null) return;
-		queue.push(root);
+		queue.push(root.value);
 		let nodeTraverseOrder = [];
 		while (queue.length) {
 			const current = queue[0];
@@ -201,12 +201,6 @@ class Tree {
 
 		this.root = this.buildTree(array);
 	}
-	getRandomNumArray() {
-		const randomLength = Math.floor(Math.random() * 15);
-		return [...Array(randomLength)].map(() =>
-			Math.floor(Math.random() * 20)
-		);
-	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
 		if (node == null) return null;
@@ -229,6 +223,16 @@ class Tree {
 	}
 }
 
-const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
-console.log(binaryTree.getRandomNumArray());
+function getRandomNumArray() {
+	const randomLength = Math.floor(Math.random() * 15);
+	return [...Array(randomLength)].map(() => Math.floor(Math.random() * 20));
+}
+
+const binaryTree = new Tree(getRandomNumArray());
+console.log(binaryTree.isBalanced());
+console.log("Level order", binaryTree.levelOrder());
+console.log("Pre order", binaryTree.preorder());
+console.log("In order", binaryTree.inorder());
+console.log("Post order", binaryTree.postorder());
+
 binaryTree.prettyPrint(binaryTree.root);
