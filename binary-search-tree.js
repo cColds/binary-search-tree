@@ -121,7 +121,23 @@ class Tree {
 			: callback(nodeTraverseOrder);
 	}
 
-	inorder() {}
+	#inorder(nodeTraverseOrder, root = this.root) {
+		if (root == null) return null;
+
+		this.#inorder(nodeTraverseOrder, root.left);
+		nodeTraverseOrder.push(root.value);
+		this.#inorder(nodeTraverseOrder, root.right);
+
+		return root;
+	}
+
+	inorder(callback) {
+		const nodeTraverseOrder = [];
+		this.#inorder(nodeTraverseOrder);
+		return typeof callback !== "function"
+			? nodeTraverseOrder
+			: callback(nodeTraverseOrder);
+	}
 
 	postorder(callback) {}
 
@@ -146,8 +162,9 @@ class Tree {
 	}
 }
 
-const binaryTree = new Tree([1, 2, 3, 4, 5, 8]);
+const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
-console.log(binaryTree.preorder((nodes) => nodes.map((node) => node * 10)));
+console.log(binaryTree.inorder());
+console.log(binaryTree.inorder((nodes) => nodes.map((node) => node ** 2)));
 
 binaryTree.prettyPrint(binaryTree.root);
