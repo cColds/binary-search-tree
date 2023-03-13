@@ -157,6 +157,17 @@ class Tree {
 			: callback(nodeTraverseOrder);
 	}
 
+	height(node = this.root) {
+		if (node == null) {
+			return -1; // Neutralize leaf nodes to height 0
+		}
+
+		const leftHeight = this.height(node.left);
+		const rightHeight = this.height(node.right);
+
+		return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+	}
+
 	prettyPrint(node, prefix = "", isLeft = true) {
 		if (node == null) return null;
 
@@ -182,5 +193,6 @@ const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
 console.log(binaryTree.postorder());
 console.log(binaryTree.preorder((nodes) => nodes.map((node) => node ** 2)));
+console.log(binaryTree.height(binaryTree.root.right));
 
 binaryTree.prettyPrint(binaryTree.root);
