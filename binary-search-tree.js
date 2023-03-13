@@ -159,13 +159,27 @@ class Tree {
 
 	height(node = this.root) {
 		if (node == null) {
-			return -1; // Neutralize leaf nodes to height 0
+			return -1; // Neutralize leaf node to height 0
 		}
 
 		const leftHeight = this.height(node.left);
 		const rightHeight = this.height(node.right);
 
-		return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+		return Math.max(leftHeight, rightHeight) + 1;
+	}
+
+	depth(node, pointer = this.root, depth = 0) {
+		if (pointer == null) {
+			return depth;
+		}
+
+		if (node.value > pointer.value) {
+			depth = this.depth(node, pointer.right, depth + 1);
+		} else if (node.value < pointer.value) {
+			depth = this.depth(node, pointer.left, depth + 1);
+		}
+
+		return depth;
 	}
 
 	prettyPrint(node, prefix = "", isLeft = true) {
@@ -193,6 +207,6 @@ const binaryTree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
 
 console.log(binaryTree.postorder());
 console.log(binaryTree.preorder((nodes) => nodes.map((node) => node ** 2)));
-console.log(binaryTree.height(binaryTree.root.right));
+console.log(binaryTree.depth(binaryTree.root.right.right.right));
 
 binaryTree.prettyPrint(binaryTree.root);
