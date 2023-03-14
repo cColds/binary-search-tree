@@ -53,7 +53,7 @@ class Tree {
 		} else if (value > root.value) {
 			root.right = this.delete(value, root.right);
 		} else {
-			// Delete node
+			// Delete node if value and root are equal
 
 			// 0 / 1 child(ren) node(s)
 			if (root.left == null) return root.right;
@@ -66,9 +66,8 @@ class Tree {
 				pointer = pointer.left;
 			}
 
-			let preserveNode = root.left;
-			root = pointer; // Get next node just bigger than the root
-			root.left = preserveNode; // Keep rest of nodes
+			root.value = pointer.value; // Set root's value to the minimum value of the right subtree
+			root.right = this.delete(root.value, root.right); // delete the old root value by setting right subtree to a new node
 		}
 
 		return root;
@@ -225,20 +224,15 @@ class Tree {
 	}
 }
 
-function getRandomNumArray() {
-	const randomLength = Math.floor(Math.random() * 15);
-	return [...Array(randomLength)].map(() => Math.floor(Math.random() * 20));
-}
-
-const binaryTree = new Tree(getRandomNumArray());
+const binaryTree = new Tree([1, 3, 7, 10, 37, 50, 80, 130]);
 console.log(binaryTree.isBalanced());
 console.log("Level order", binaryTree.levelOrder());
 console.log("Pre order", binaryTree.preorder());
 console.log("In order", binaryTree.inorder());
 console.log("Post order", binaryTree.postorder());
 binaryTree.insert(100);
-binaryTree.insert(150);
-binaryTree.insert(200);
+binaryTree.insert(250);
+binaryTree.insert(300);
 console.log(binaryTree.isBalanced());
 binaryTree.prettyPrint(binaryTree.root);
 
@@ -248,4 +242,8 @@ console.log("Level order", binaryTree.levelOrder());
 console.log("Pre order", binaryTree.preorder());
 console.log("In order", binaryTree.inorder());
 console.log("Post order", binaryTree.postorder());
+console.log("before");
+binaryTree.prettyPrint(binaryTree.root);
+binaryTree.delete(5);
+console.log("after");
 binaryTree.prettyPrint(binaryTree.root);
